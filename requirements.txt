@@ -1,0 +1,8 @@
+# requirements.txt
+# pip dependency list for image build
+# version 2
+
+Flask==2.2.2
+google-cloud-storage==2.5.0
+Werkzeug==2.2.2
+
