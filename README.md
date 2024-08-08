@@ -28,7 +28,7 @@ curl -X GET https://YOUR_FUNCTION_URL/list
 
 ## Deployment:
 
-Step 1: 
+**Step 1:**
 
 Clone Repo
 
@@ -37,15 +37,15 @@ cd gcs-basic-api
 
 You should open the directory in VS Code.
 
-Step 2: 
+**Step 2:**
 
 initalize gcloud 
 
-Step 3:
+**Step 3:**
 
 Edit code to include a preexisting bucket in main.py. 
 
-Step 4:
+**Step 4:**
 
 Deploy it using the following:
 
