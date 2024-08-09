@@ -5,7 +5,9 @@ This is a simple HTTP REST API written in Python, designed to interact with a Go
 
 ## Features:
 
-The HTTP server 
+The API uses HTTP by virtue of a Flask app. It uses WSGI to interact with requests, and the GCS library to interact with Google's GCS RESTful API. 
+
+### Endpoints
 /upload 
 This endpoint allows a file of the users choice to be uploaded to the bucket.
 
@@ -42,13 +44,16 @@ As this is an API, essenitally middleware with no front end, interaction has to 
 
 If you are not familar, curl can be used to interact with servers using protocols like HTTP or FTP. It can send and recieve data. 
 
+#### Basic Command
 You write it like this:
 curl -X <REST_METHOD> https://YOUR_URL/endpoint 
 
 This would use whatever REST method you want like GET or POST to invoke an API endpoint (or whatever is at the end of URL)
 
+#### Flags
 Another flag we will use is 
 -F : This indicates a file is involved and specifies it path in the argument
+
 -F 'file=@path/to/your/file' (this is how you would add this flag to curl)
 
 Finally, if we want to pass a query to the API we need to do two things:
@@ -56,14 +61,18 @@ Finally, if we want to pass a query to the API we need to do two things:
 2) use the output flag (-o) to specify the path of the file (to be downloaded in this case)
 
 ### curl commands
+
+#### Basic:
+
 The simplest call to execute would be:
 curl -X GET https://YOUR_FUNCTION_URL/list 
 
-In addition the following two calls are available: 
+#### Additional: In addition the following two calls are available: 
 
 curl -X POST -F 'file=@path/to/your/file' https://YOUR_FUNCTION_URL/upload
 
 curl -X GET 'https://YOUR_FUNCTION_URL/download?filename=yourfile.txt' -o yourfile.txt
+
 
 unless you specify the file path remember it most be in the present working directory of the CLI that you are executing curl from. 
 
