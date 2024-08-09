@@ -32,10 +32,10 @@ curl -X GET https://YOUR_FUNCTION_URL/list
 
 Clone Repo
 
-git clone https://github.com/YOUR_USERNAME/gcs-basic-api.git
-cd gcs-basic-api 
+git clone https://github.com/aaron-dm-mcdonald/gcs-basic-api.git
 
-You should open the directory in VS Code.
+
+Open this in VS Code
 
 **Step 2:**
 
@@ -43,13 +43,13 @@ initalize gcloud
 
 **Step 3:**
 
-Edit code to include a preexisting bucket in main.py. 
+Edit code to include a preexisting bucket in main.py on line 11. 
 
 **Step 4:**
 
 Deploy it using the following:
 
-### local build:
+### 1) local build (not reccomended):
 
 gcloud auth configure-docker
 
@@ -65,7 +65,7 @@ gcloud functions deploy my-function \
     --source gcr.io/YOUR_PROJECT_ID/my-function
 
 
-### buildpack (easier):
+### 2) buildpack (easier):
 
 gcloud functions deploy my-function --runtime python39 --trigger-http --allow-unauthenticated --entry-point main
 
@@ -73,3 +73,4 @@ gcloud functions deploy my-function --runtime python39 --trigger-http --allow-un
 ## Features to build
 1) Abstract hardcoded bucket name with env vars or secret manager 
 2) add basic API key 
+3) Finish terraform deployment, package source code as ZIP for automated deployment 
