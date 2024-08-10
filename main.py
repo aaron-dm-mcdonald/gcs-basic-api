@@ -41,7 +41,7 @@ def download_file():
 
 
 
-# First API Endpoint for uploading files
+# Third API Endpoint for uploading files
 @app.route('/upload', methods=['POST']) 
 def upload_file():
     # Get the file from the request
@@ -54,6 +54,47 @@ def upload_file():
     return jsonify({'message': f'File {file.filename} uploaded successfully.'}), 200
 
 
+
+# Fourth API Endpoint for deleting files
+@app.route('/delete', methods=['DELETE'])
+def delete_file():
+    # Get the filename from the request arguments
+    filename = request.args.get('filename')
+    # Create a blob object for the specified file in the bucket
+    blob = client.bucket(bucket_name).blob(filename)
+    # Delete the file from Google Cloud Storage
+    blob.delete()
+    # Return a success message
+    return jsonify({'message': f'File {filename} deleted successfully.'}), 200
+
+
+
+# Fifth API Endpoint for retrieving file metadata
+@app.route('/metadata', methods=['GET'])
+def get_metadata():
+    # Get the filename from the request arguments
+    filename = request.args.get('filename')
+    # Create a blob object for the specified file in the bucket
+    blob = client.bucket(bucket_name).blob(filename)
+    # Retrieve the metadata of the file
+    metadata = blob.metadata
+    # Return the metadata as JSON
+    return jsonify({'metadata': metadata}), 200
+
+
+
+
+# Sixth API Endpoint for generating a signed URL
+@app.route('/signed-url', methods=['GET'])
+def generate_signed_url():
+    # Get the filename from the request arguments
+    filename = request.args.get('filename')
+    # Create a blob object for the specified file in the bucket
+    blob = client.bucket(bucket_name).blob(filename)
+    # Generate a signed URL for the file with a 15-minute expiration
+    url = blob.generate_signed_url(expiration=timedelta(minutes=15))
+    # Return the signed URL as JSON
+    return jsonify({'url': url}), 200
 
 
 
