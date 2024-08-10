@@ -9,40 +9,29 @@ The API uses HTTP by virtue of a Flask app. It uses WSGI to interact with reques
 
 ### Endpoints
 
-/list
-This endpoint allows a user to list all objects in the bucket. 
+1) /list
+   * This endpoint allows a user to list all objects in the bucket. 
+   * `curl -X GET https://YOUR_FUNCTION_URL/list` 
 
-`curl -X GET https://YOUR_FUNCTION_URL/list` 
+2) /upload 
+   * This endpoint allows a file of the users choice to be uploaded to the bucket.
+   * `curl -X POST -F 'file=@path/to/your/file' https://YOUR_FUNCTION_URL/upload`
 
+3) /download
+   * This endpoint allows a file to be downloaded from the bucket and saved on the local machine. 
+   * `curl -X GET 'https://YOUR_FUNCTION_URL/download?filename=yourfile.txt' -o yourfile.txt`
 
-/upload 
-This endpoint allows a file of the users choice to be uploaded to the bucket.
+4) /delete
+   * This endpoint allows an object to be deleted from the bucket.
+   * `curl -X DELETE "https://<your-cloud-function-url>/delete?filename=<filename>"`
 
-`curl -X POST -F 'file=@path/to/your/file' https://YOUR_FUNCTION_URL/upload`
+5) /metadata
+   * This endpoint allows an object's metadata to be queried. 
+   * `curl -X GET "https://<your-cloud-function-url>/metadata?filename=<filename>"`
 
-
-/download
-This endpoint allows a file to be downloaded from the bucket and saved on the local machine. 
-
-`curl -X GET 'https://YOUR_FUNCTION_URL/download?filename=yourfile.txt' -o yourfile.txt`
-
-
-/delete
-This endpoint allows an object to be deleted from the bucket.
-
-`curl -X DELETE "https://<your-cloud-function-url>/delete?filename=<filename>"`
-
-
-/metadata
-This endpoint allows an object's metadata to be queried. 
-
-`curl -X GET "https://<your-cloud-function-url>/metadata?filename=<filename>"`
-
-
-/signed-url
-This endpoint allows a signed URL to be generated for a file in the bucket. 
-
-`curl -X GET "https://<your-cloud-function-url>/signed-url?filename=<filename>"`
+6) /signed-url
+   * This endpoint allows a signed URL to be generated for a file in the bucket. 
+   * `curl -X GET "https://<your-cloud-function-url>/signed-url?filename=<filename>"`
 
 
 ## What is actually happening:
