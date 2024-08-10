@@ -8,14 +8,42 @@ This is a simple HTTP REST API written in Python, designed to interact with a Go
 The API uses HTTP by virtue of a Flask app. It uses WSGI to interact with requests, and the GCS library to interact with Google's GCS RESTful API. 
 
 ### Endpoints
+
+/list
+This endpoint allows a user to list all objects in the bucket. 
+
+`curl -X GET https://YOUR_FUNCTION_URL/list` 
+
+
 /upload 
 This endpoint allows a file of the users choice to be uploaded to the bucket.
+
+`curl -X POST -F 'file=@path/to/your/file' https://YOUR_FUNCTION_URL/upload`
+
 
 /download
 This endpoint allows a file to be downloaded from the bucket and saved on the local machine. 
 
-/list
-This endpoint allows a user to list all objects in the bucket. 
+`curl -X GET 'https://YOUR_FUNCTION_URL/download?filename=yourfile.txt' -o yourfile.txt`
+
+
+/delete
+This endpoint allows an object to be deleted from the bucket.
+
+`curl -X DELETE "https://<your-cloud-function-url>/delete?filename=<filename>"`
+
+
+/metadata
+This endpoint allows an object's metadata to be queried. 
+
+`curl -X GET "https://<your-cloud-function-url>/metadata?filename=<filename>"`
+
+
+/signed-url
+This endpoint allows a signed URL to be generated for a file in the bucket. 
+
+`curl -X GET "https://<your-cloud-function-url>/signed-url?filename=<filename>"`
+
 
 ## What is actually happening:
 Assume we are using the /list endpoint as it is the most straightforward.
@@ -46,7 +74,7 @@ If you are not familar, curl can be used to interact with servers using protocol
 
 #### Basic Command
 You write it like this:
-curl -X <REST_METHOD> https://YOUR_URL/endpoint 
+`curl -X <REST_METHOD> https://YOUR_URL/endpoint`
 
 This would use whatever REST method you want like GET or POST to invoke an API endpoint (or whatever is at the end of URL)
 
@@ -54,27 +82,11 @@ This would use whatever REST method you want like GET or POST to invoke an API e
 Another flag we will use is 
 -F : This indicates a file is involved and specifies it path in the argument
 
--F 'file=@path/to/your/file' (this is how you would add this flag to curl)
+`-F 'file=@path/to/your/file'` (this is how you would add this flag to curl)
 
 Finally, if we want to pass a query to the API we need to do two things:
 1) append the query seperator (the question mark in the URL) and query information
 2) use the output flag (-o) to specify the path of the file (to be downloaded in this case)
-
-### curl commands
-
-#### Basic:
-
-The simplest call to execute would be:
-curl -X GET https://YOUR_FUNCTION_URL/list 
-
-#### Additional: In addition the following two calls are available: 
-
-curl -X POST -F 'file=@path/to/your/file' https://YOUR_FUNCTION_URL/upload
-
-curl -X GET 'https://YOUR_FUNCTION_URL/download?filename=yourfile.txt' -o yourfile.txt
-
-
-unless you specify the file path remember it most be in the present working directory of the CLI that you are executing curl from. 
 
 
 
@@ -84,8 +96,7 @@ unless you specify the file path remember it most be in the present working dire
 
 Clone Repo
 
-git clone https://github.com/aaron-dm-mcdonald/gcs-basic-api.git
-
+`git clone https://github.com/aaron-dm-mcdonald/gcs-basic-api.git`
 
 Open this in VS Code
 
@@ -95,14 +106,14 @@ initalize gcloud
 
 **Step 3:**
 
-Edit code to include a preexisting bucket in main.py on line 11. 
+Edit code to include a preexisting bucket in `main.py` on line 11. 
 
 **Step 4:**
 
 Deploy it using one the following methods:
 
 ### 1) local build (not reccomended):
-
+```bash
 gcloud auth configure-docker
 
 docker build -t gcr.io/YOUR_PROJECT_ID/my-function .
@@ -115,11 +126,11 @@ gcloud functions deploy my-function \
     --trigger-http \
     --allow-unauthenticated \
     --source gcr.io/YOUR_PROJECT_ID/my-function
-
+```
 
 ### 2) buildpack (easier):
 
-gcloud functions deploy my-function --runtime python39 --trigger-http --allow-unauthenticated --entry-point main
+`gcloud functions deploy my-function --runtime python39 --trigger-http --allow-unauthenticated --entry-point main`
 
 
 ## Features to build
